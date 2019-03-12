@@ -101,8 +101,8 @@ public class HomeController {
         model.addAttribute("categories", categoryRepository.findAll());
         return "carform";
     }
-    @RequestMapping("/deletecar/{id}")
-    public String deleteAuthorList (@PathVariable("id") long id, Model model){
+    @RequestMapping("/delete/{id}")
+    public String deleteAuthorList (@PathVariable("id") long id){
        carRepository.deleteById(id);
         return "redirect:/carlist";
     }

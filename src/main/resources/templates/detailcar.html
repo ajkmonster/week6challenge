@@ -16,7 +16,7 @@ Price : <span th:text="${car.price}" ></span> <br />
 Image : <img th:src="${car.picture}" /> <br />
 <a th:href="@{/updatecar/{id}(id=${car.id})}" >Update this Car</a>
 <br>
-<a th:href="@{/deletecar/{id}(id=${car.id})}" >Delete this Car</a>
+<a th:href="@{/delete/{id}(id=${car.id})}" >Delete this Car</a>
 <br>
 
 <div th:replace="base :: footer"></div>
