@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,9 +28,15 @@
         <td th:text="${car.category==null}?'None':${car.category.name}"></td>
         <td><img th:src="${car.picture==null}?'':${car.picture}"></td>
         <td>
+            <div sec:authorize="isAuthenticated()">
+                <div sec:authorize="hasAuthority('User')">
             <a th:href="@{/updatecar/{id}(id=${car.id})}">Update</a> -
             <a th:href="@{/detailcar/{id}(id=${car.id})}">Details</a> -
+                </div>
+                    <div sec:authorize="hasAuthority('Admin')">
             <a th:href="@{/delete/{id}(id=${car.id})}">Delete</a>
+                    </div>
+            </div>
         </td>
     </tr>
 </table>

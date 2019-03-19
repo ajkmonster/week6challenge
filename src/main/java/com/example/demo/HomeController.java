@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,11 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 public class HomeController {
+    @Autowired
+    private UserService userService;
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -23,18 +27,29 @@ public class HomeController {
 
     @Autowired
     CloudinaryConfig cloudc;
-
-    @RequestMapping("/")
-    public String index(){
-        return "index";
-    }
-    @RequestMapping("/login")
-    public String login(){
+    @GetMapping("/"+"/login")
+    public String showRegistrationPage(Model model) {
+        model.addAttribute("user", new User());
         return "login";
     }
-    @RequestMapping("/admin")
-    public String admin(){
-        return "admin";
+    @PostMapping("/register")
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+        model.addAttribute("user", new User());
+//        if (result.hasErrors()){
+//            return "login";
+//        }
+//        else {
+        userService.saveUser(user);
+        model.addAttribute("message","User Account Created");
+//        }
+        return "login";
+    }
+    @RequestMapping("/index")
+    public String secure(Principal principal, Model model){
+        User myuser = ((CustomUserDetails)((UsernamePasswordAuthenticationToken) principal)
+                .getPrincipal()).getUser();
+        model.addAttribute("myuser",myuser);
+        return "index";
     }
     @RequestMapping("/carlist")
     public String getAuthorList(Model model) {

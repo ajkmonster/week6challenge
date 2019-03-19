@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,10 +14,16 @@ Name : <span th:text="${car.manufacturer}"> </span><span th:text="${car.model}">
 Year : <span th:text="${car.year}" ></span> <br />
 Price : <span th:text="${car.price}" ></span> <br />
 Image : <img th:src="${car.picture}" /> <br />
+<div sec:authorize="isAuthenticated()">
+<div sec:authorize="hasAuthority('User')">
 <a th:href="@{/updatecar/{id}(id=${car.id})}" >Update this Car</a>
+</div>
 <br>
+<div sec:authorize="hasAuthority('Admin')">
 <a th:href="@{/delete/{id}(id=${car.id})}" >Delete this Car</a>
+</div>
 <br>
+</div>
 
 <div th:replace="base :: footer"></div>
 
