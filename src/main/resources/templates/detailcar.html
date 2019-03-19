@@ -20,7 +20,8 @@ Image : <img th:src="${car.picture}" /> <br />
 </div>
 <br>
 <div sec:authorize="hasAuthority('Admin')">
-<a th:href="@{/delete/{id}(id=${car.id})}" >Delete this Car</a>
+    <a th:href="@{/updatecar/{id}(id=${car.id})}" >Update this Car</a>
+    <a th:href="@{/delete/{id}(id=${car.id})}" >Delete this Car</a>
 </div>
 <br>
 </div>

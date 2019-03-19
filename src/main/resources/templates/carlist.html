@@ -31,10 +31,12 @@
             <div sec:authorize="isAuthenticated()">
                 <div sec:authorize="hasAuthority('User')">
             <a th:href="@{/updatecar/{id}(id=${car.id})}">Update</a> -
-            <a th:href="@{/detailcar/{id}(id=${car.id})}">Details</a> -
+            <a th:href="@{/detailcar/{id}(id=${car.id})}">Details</a>
                 </div>
                     <div sec:authorize="hasAuthority('Admin')">
-            <a th:href="@{/delete/{id}(id=${car.id})}">Delete</a>
+                        <a th:href="@{/updatecar/{id}(id=${car.id})}">Update</a> -
+                        <a th:href="@{/detailcar/{id}(id=${car.id})}">Details</a> -
+                        <a th:href="@{/delete/{id}(id=${car.id})}">Delete</a>
                     </div>
             </div>
         </td>
