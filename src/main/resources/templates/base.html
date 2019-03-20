@@ -25,24 +25,25 @@
                     <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                     </span>
                 </li>
-                <li>
-                    <a class="nav-link" href="/addcategory">Add Category</a>
-                </li>
-                <li>
-                <a class="nav-link" href="/addcar">Add Car</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="/categorylist">Categories</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="/carlist">Cars</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/addcategory">Add Category</a>
+                        <a class="dropdown-item" href="/addcar">Add Car</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/categorylist">Category List</a>
+                        <a class="dropdown-item" href="/carlist">Car List</a>
+                    </div>
                 </li>
                 <li>
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+
+            <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/search}" method="post">
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>

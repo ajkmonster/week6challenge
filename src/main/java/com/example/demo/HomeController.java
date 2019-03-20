@@ -51,12 +51,20 @@ public class HomeController {
         model.addAttribute("myuser",myuser);
         return "index";
     }
+    @PostMapping("/search")
+    public String searchword(Model model, @RequestParam String search){
+        ArrayList<Car> results =(ArrayList<Car>)
+                carRepository.findByModelOrManufacturerContainingIgnoreCase(search,search);
+        model.addAttribute("cars", results);
+        return "carlist";
+    }
     @RequestMapping("/carlist")
     public String getAuthorList(Model model) {
         model.addAttribute("cars",carRepository.findAll());
         model.addAttribute("categories", categoryRepository.findAll());
         return "carlist";
     }
+
     @RequestMapping("/categorylist")
     public String getCategoryList(Model model) {
         model.addAttribute("cars",carRepository.findAll());
