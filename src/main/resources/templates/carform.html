@@ -21,6 +21,7 @@
     <div class="ui-widget">
         <div class="form-inline">
             <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{user}" />
             <label class="control-label col-sm-1" for="manufacturer"></label>
             <div class="col-auto">
                 <input type="text" class="form-control basicAutoComplete" id="manufacturer" placeholder="Enter Manufacturer" th:field="*{manufacturer}" />
@@ -69,17 +70,25 @@
             </div>
         </div>
     </div>
-    </div>
     <br>
     <div class="form-inline">
-        <label class="control-label col-sm-1"></label>
+        <label class="control-label col-sm-1">Image: </label>
         <div class="col-auto">
             <input type="file" class="form-control-file" name="file"/>
         </div>
     </div>
     <br>
-    <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-10">
+    <div class="form-inline"th:if="${car.picture != null}">
+        <label class="control-label col-sm-1"></label>
+        <div class="col-auto">
+        <img th:src="${car.picture}" alt="meme image"/>
+        </div>
+    </div>
+    <br>
+    <div class="form-inline">
+        <label class="control-label col-sm-1"></label>
+        <div class="col-auto">
+            <input type="hidden" th:value="${car.picture}" name="hiddenphoto"/>
             <button type="submit"  class="btn btn-outline-dark">Submit</button>
         </div>
     </div>

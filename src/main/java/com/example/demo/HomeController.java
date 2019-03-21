@@ -58,10 +58,20 @@ public class HomeController {
         model.addAttribute("cars", results);
         return "carlist";
     }
+    @RequestMapping("/profile")
+    public String profile(Model model){
+        if(userService.getUser() != null) {
+            model.addAttribute("user", userService.getUser());
+        }
+        return "profile";
+    }
     @RequestMapping("/carlist")
     public String getAuthorList(Model model) {
         model.addAttribute("cars",carRepository.findAll());
         model.addAttribute("categories", categoryRepository.findAll());
+        if(userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         return "carlist";
     }
 
@@ -93,22 +103,32 @@ public class HomeController {
         return "redirect:/carlist";
     }
     @PostMapping("/processcar")
-    public String processCarForm(@ModelAttribute("car") @Valid Car car, BindingResult result, @RequestParam("file") MultipartFile file) {
+    public String processCarForm(@ModelAttribute("car") @Valid Car car, BindingResult result, @RequestParam("file") MultipartFile file, @RequestParam("hiddenphoto") String picture) {
         if (result.hasErrors()){
             return "carform";
         }
-
-        try {
-            Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
-            String url = uploadResult.get("url").toString();
-            int i = url.lastIndexOf('/');
-            url=url.substring(i+1);
-            url="http://res.cloudinary.com/ajkmonster/image/upload/w_150,h_150/"+url;
-            car.setPicture(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "redirect:/carform";
+        if(!file.isEmpty()) {
+            try {
+                Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
+                String url = uploadResult.get("url").toString();
+                int i = url.lastIndexOf('/');
+                url = url.substring(i + 1);
+                url = "http://res.cloudinary.com/ajkmonster/image/upload/w_150,h_150/" + url;
+                car.setPicture(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/carform";
+            }
         }
+        else {
+            if(!picture.isEmpty()) {
+                car.setPicture(picture);
+            }
+            else {
+                car.setPicture("");
+            }
+        }
+        car.setUser(userService.getUser());
         carRepository.save(car);
         return "redirect:/carlist";
     }
@@ -116,6 +136,9 @@ public class HomeController {
     @RequestMapping("/detailcar/{id}")
     public String detailsOfAuthor(@PathVariable("id") long id, Model model){
         model.addAttribute("car",carRepository.findById(id).get());
+        if(userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         return "detailcar";
     }
     @RequestMapping("/updatecar/{id}")

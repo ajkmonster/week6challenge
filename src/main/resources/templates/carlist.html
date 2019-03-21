@@ -30,8 +30,10 @@
         <td>
             <div sec:authorize="isAuthenticated()">
                 <div sec:authorize="hasAuthority('User')">
+                    <span th:if="${user_id == car.user.id}">
             <a th:href="@{/updatecar/{id}(id=${car.id})}">Update</a> -
             <a th:href="@{/detailcar/{id}(id=${car.id})}">Details</a>
+                    </span>
                 </div>
                     <div sec:authorize="hasAuthority('Admin')">
                         <a th:href="@{/updatecar/{id}(id=${car.id})}">Update</a> -

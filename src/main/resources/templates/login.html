@@ -84,7 +84,7 @@
 				</label>
 			<label>
 				<span>Password</span>
-				<input type="text" id="password"  th:field="*{password}" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+				<input type="password" id="password"  th:field="*{password}" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
 					   title="Must contain at least one number and at least 8 or more characters"
 					   required />
 				<!--<span th:if="${#fields.hasErrors('password')}"-->
