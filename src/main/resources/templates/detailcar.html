@@ -16,7 +16,9 @@ Price : <span th:text="${car.price}" ></span> <br />
 Image : <img th:src="${car.picture}" /> <br />
 <div sec:authorize="isAuthenticated()">
 <div sec:authorize="hasAuthority('User')">
+    <span th:if="${user_id == car.user.id}">
 <a th:href="@{/updatecar/{id}(id=${car.id})}" >Update this Car</a>
+    </span>
 </div>
 <br>
 <div sec:authorize="hasAuthority('Admin')">

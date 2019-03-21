@@ -16,6 +16,10 @@ public class Car {
     @JoinColumn(name = "category_id")
     private Category category;
 
+
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
     @NotNull
     @Min(1900)
     @Max(2019)
@@ -34,6 +38,15 @@ public class Car {
         this.category = category;
     }
 
+    public Car(User user) {this.user = user;}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Category getCategory() {
         return category;
