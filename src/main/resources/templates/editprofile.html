@@ -7,67 +7,56 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <title>Title</title>
 </head>
-<!--String sku = "";-->
-<!--String bookTitle = "";-->
-<!--String author = "";-->
-<!--String description = "";-->
-<!--double price = 0.0;-->
-<!--String isInStock = "";-->
-<!--int amount = 0;-->
 <body>
 <div th:replace="base :: navlinks"></div>
 <br>
-<form autocomplete="off" class="form-horizontal" action="#" th:action="@{/processcar}" th:object="${car}" method="post" enctype="multipart/form-data" >
+<form autocomplete="off" class="form-horizontal" action="#" th:action="@{/editprofile}" th:object="${user}" method="post" enctype="multipart/form-data" >
     <div class="ui-widget">
         <div class="form-inline">
             <input type="hidden" th:field="*{id}" />
-            <input type="hidden" th:field="*{user}" />
-            <label class="control-label col-sm-1" for="manufacturer"></label>
+            <label class="control-label col-sm-1 text-center" for="firstname">First Name:</label>
             <div class="col-auto">
-                <input type="text" class="form-control basicAutoComplete" id="manufacturer" placeholder="Enter Manufacturer" th:field="*{manufacturer}" />
-                <span th:if="${#fields.hasErrors('manufacturer')}"
-                      th:errors="*{manufacturer}"></span><br />
+                <input type="text" class="form-control basicAutoComplete" id="firstname" placeholder="First Name" th:field="*{firstName}" />
+                <span th:if="${#fields.hasErrors('firstName')}"
+                      th:errors="*{firstName}"></span><br />
             </div>
         </div>
     </div>
     <br>
     <div class="form-inline">
-        <label class="control-label col-sm-1" for="model"></label>
+        <label class="control-label col-sm-1 text-center" for="lastname">Last Name:</label>
         <div class="col-auto">
-            <input type="text" class="form-control basicAutoComplete" id="model" placeholder="Enter Model" th:field="*{model}" />
-            <span th:if="${#fields.hasErrors('model')}"
-                  th:errors="*{model}"></span><br />
+            <input type="text" class="form-control basicAutoComplete" id="lastname" placeholder="Last Name" th:field="*{lastName}" />
+            <span th:if="${#fields.hasErrors('lastName')}"
+                  th:errors="*{lastName}"></span><br />
         </div>
     </div>
     <br>
     <div class="form-inline">
-        <label class="control-label col-sm-1" for="year">Year: </label>
+        <label class="control-label col-sm-1" for="email">Email:</label>
         <div class="col-auto">
-            <input type="text" class="form-control basicAutoComplete" id="year" placeholder="Enter Year" th:field="*{year}" />
-            <span th:if="${#fields.hasErrors('year')}"
-                  th:errors="*{year}"></span><br />
+            <input type="text" class="form-control basicAutoComplete" id="email" placeholder="Email" th:field="*{email}" />
+            <span th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}"></span><br />
         </div>
     </div>
     <br />
     <div class="form-inline">
-        <label class="control-label col-sm-1" for="price">Price: </label>
+        <label class="control-label col-sm-1" for="username">Username:</label>
         <div class="col-auto">
-            <input type="text" class="form-control basicAutoComplete" id="price" placeholder="Enter Price" th:field="*{price}" />
-            <span th:if="${#fields.hasErrors('price')}"
-                  th:errors="*{price}"></span><br />
+            <input type="text" class="form-control basicAutoComplete" id="username" placeholder="Username" th:field="*{username}" disabled/>
+            <input type="hidden" th:field="*{username}" />
+            <span th:if="${#fields.hasErrors('username')}"
+                  th:errors="*{username}"></span><br />
         </div>
     </div>
     <br>
     <div class="form-inline">
-        <label class="control-label col-sm-1" for="category">Category: </label>
+        <label class="control-label col-sm-1" for="password">Password:</label>
         <div class="col-auto">
-            <div th:switch="${categories==null}">
-                <span th:case="true"><input type="text"  disabled></span>
-                <select th:case="false" th:field="*{category}" id="category" >
-                    <option th:each ="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-                </select>
-                <p th:case="*">error</p>
-            </div>
+            <input type="password" class="form-control basicAutoComplete" id="password" placeholder="password" th:field="*{password}" />
+            <span th:if="${#fields.hasErrors('password')}"
+                  th:errors="*{password}"></span><br />
         </div>
     </div>
     <br>
@@ -78,17 +67,17 @@
         </div>
     </div>
     <br>
-    <div class="form-inline"th:if="${car.picture != null}">
+    <div class="form-inline"th:if="${user.photo != null}">
         <label class="control-label col-sm-1"></label>
         <div class="col-auto">
-        <img th:src="${car.picture}" alt="meme image"/>
+            <img th:src="${user.photo}" alt="meme image"/>
         </div>
     </div>
     <br>
     <div class="form-inline">
         <label class="control-label col-sm-1"></label>
         <div class="col-auto">
-            <input type="hidden" th:value="${car.picture}" name="hiddenphoto"/>
+            <input type="hidden" th:value="${user.photo}" name="hiddenphoto"/>
             <button type="submit"  class="btn btn-outline-dark">Submit</button>
         </div>
     </div>

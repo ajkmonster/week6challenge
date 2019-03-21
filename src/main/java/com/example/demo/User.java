@@ -3,6 +3,8 @@ package com.example.demo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Set;
 
@@ -13,15 +15,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @Column(name = "email",nullable=false)
     private String email;
 
+    @NotNull
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}$")
     @Column(name = "password")
     private String password;
 
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
 
+    @NotNull
     @Column(name = "last_name")
     private String lastName;
 
@@ -31,7 +39,8 @@ public class User {
     @Column(name = "username")
     private String username;
 
-
+    @Column(name= "photo")
+    private String photo;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Car> car;
@@ -44,15 +53,23 @@ public class User {
 
     }
 
-    public User(String email, String password, String firstName, String lastName, boolean enabled, String username,Set<Car> car) {
+    public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
     this.setEmail(email);
     this.setPassword(password);
     this.setFirstName(firstName);
     this.setLastName(lastName);
     this.setEnabled(enabled);
     this.setUsername(username);
-    this.setCar(car);
     }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public Set<Car> getCar() {
         return car;
     }

@@ -54,7 +54,7 @@ public class HomeController {
     @PostMapping("/search")
     public String searchword(Model model, @RequestParam String search){
         ArrayList<Car> results =(ArrayList<Car>)
-                carRepository.findByModelOrManufacturerContainingIgnoreCase(search,search);
+                carRepository.findByModelContainingOrManufacturerContainingIgnoreCase(search,search);
         model.addAttribute("cars", results);
         return "carlist";
     }
@@ -103,8 +103,10 @@ public class HomeController {
         return "redirect:/carlist";
     }
     @PostMapping("/processcar")
-    public String processCarForm(@ModelAttribute("car") @Valid Car car, BindingResult result, @RequestParam("file") MultipartFile file, @RequestParam("hiddenphoto") String picture) {
+    public String processCarForm(@ModelAttribute("car") @Valid Car car, BindingResult result, @RequestParam("file") MultipartFile file,
+                                 @RequestParam("hiddenphoto") String picture, Model model) {
         if (result.hasErrors()){
+            model.addAttribute("categories",categoryRepository.findAll());
             return "carform";
         }
         if(!file.isEmpty()) {
@@ -117,6 +119,7 @@ public class HomeController {
                 car.setPicture(url);
             } catch (IOException e) {
                 e.printStackTrace();
+                model.addAttribute("categories",categoryRepository.findAll());
                 return "redirect:/carform";
             }
         }
@@ -152,7 +155,41 @@ public class HomeController {
        carRepository.deleteById(id);
         return "redirect:/carlist";
     }
-
+    @RequestMapping ("/editprofile")
+    public String editprofile (Model model){
+        model.addAttribute("user",userService.getUser());
+        return "editprofile";
+    }
+    @PostMapping ("/editprofile")
+    public String processeditprofile (@ModelAttribute("user") @Valid User user, BindingResult result, @RequestParam("file") MultipartFile file,
+                                      @RequestParam("hiddenphoto") String photo) {
+        if (result.hasErrors()){
+            return "editprofile";
+        }
+        if(!file.isEmpty()) {
+            try {
+                Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
+                String urluser = uploadResult.get("url").toString();
+                int i = urluser.lastIndexOf('/');
+                urluser = urluser.substring(i + 1);
+                urluser = "http://res.cloudinary.com/ajkmonster/image/upload/w_300,h_300/" + urluser;
+                user.setPhoto(urluser);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/editprofile";
+            }
+        }
+        else {
+            if(!photo.isEmpty()) {
+                user.setPhoto(photo);
+            }
+            else {
+                user.setPhoto("");
+            }
+        }
+        userService.saveUser(user);
+        return "redirect:/profile";
+    }
 
 
 
