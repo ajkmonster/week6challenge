@@ -58,6 +58,13 @@ public class HomeController {
         model.addAttribute("cars", results);
         return "carlist";
     }
+    @RequestMapping("/profile")
+    public String profile(Model model){
+        if(userService.getUser() != null) {
+            model.addAttribute("user", userService.getUser());
+        }
+        return "profile";
+    }
     @RequestMapping("/carlist")
     public String getAuthorList(Model model) {
         model.addAttribute("cars",carRepository.findAll());
